@@ -49,16 +49,16 @@ int _eputchar(char c)
  */
 int _putfd(char c, int fd)
 {
-	static int i;
+	static int a;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (c == BUF_FLUSH || a >= WRITE_BUF_SIZE)
 	{
-		write(fd, buf, i);
-		i = 0;
+		write(fd, buf, a);
+		a = 0;
 	}
 	if (c != BUF_FLUSH)
-		buf[i++] = c;
+		buf[a++] = c;
 	return (1);
 }
 

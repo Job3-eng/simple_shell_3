@@ -25,24 +25,24 @@ char **get_environ(info_t *info)
 int _unsetenv(info_t *info, char *var)
 {
 	list_t *node = info->env;
-	size_t i = 0;
-	char *p;
+	size_t a = 0;
+	char *b;
 
 	if (!node || !var)
 		return (0);
 
 	while (node)
 	{
-		p = starts_with(node->str, var);
-		if (p && *p == '=')
+		b = starts_with(node->str, var);
+		if (b && *b == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), i);
-			i = 0;
+			info->env_changed = delete_node_at_index(&(info->env), a);
+			a = 0;
 			node = info->env;
 			continue;
 		}
 		node = node->next;
-		i++;
+		a++;
 	}
 	return (info->env_changed);
 }

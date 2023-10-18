@@ -1,29 +1,29 @@
 #include "shell.h"
 
 /**
- * hsh -the  main loop for shell
- * @info: param structure
- * @av: arg vector for main entry point
+ * hsh - the main entry for loop
+ * @info: structure param
+ * @av:  arg
  *
- * Return: 0 success, 1 failure
+ * Return: 0 success, 1 otherwise.
  */
 int hsh(info_t *info, char **av)
 {
-	ssize_t r = 0;
-	int builtin_ret = 0;
+	ssize_t a = 0;
+	int builtin_rets = 0;
 
-	while (r != -1 && builtin_ret != -2)
+	while (a != -1 && builtin_rets != -2)
 	{
 		clear_info(info);
 		if (interactive(info))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
-		r = get_input(info);
-		if (r != -1)
+		a = get_input(info);
+		if (a != -1)
 		{
 			set_info(info, av);
-			builtin_ret = find_builtin(info);
-			if (builtin_ret == -1)
+			builtin_rets = find_builtin(info);
+			if (builtin_rets == -1)
 				find_cmd(info);
 		}
 		else if (interactive(info))
@@ -34,58 +34,57 @@ int hsh(info_t *info, char **av)
 	free_info(info, 1);
 	if (!interactive(info) && info->status)
 		exit(info->status);
-	if (builtin_ret == -2)
+	if (builtin_rets == -2)
 	{
 		if (info->err_num == -1)
 			exit(info->status);
 		exit(info->err_num);
 	}
-	return (builtin_ret);
+	return (builtin_rets);
 }
 
 /**
- * find_builtin - finding the  command
- * @info: the parameter structure
+ * find_builtin - finding cmd
+ * @info: structure param
  *
- * Return: -1 not found 0 success
- * 	1 found and  not successful
- * 	2 signals exit.
+ * Return: -1 not,0 success,1 nota success,2 exit()
  */
 int find_builtin(info_t *info)
 {
-	int i, built_in_ret = -1;
+	int a, built_in_rets = -1;
 	builtin_table builtintbl[] = {
-		{"exit", _myexit},
-		{"env", _myenv},
-		{"help", _myhelp},
 		{"history", _myhistory},
 		{"setenv", _mysetenv},
 		{"unsetenv", _myunsetenv},
 		{"cd", _mycd},
 		{"alias", _myalias},
-		{NULL, NULL}
+		{NULL, NULL},
+		{"exit", _myexit},
+		{"env", _myenv},
+		{"help", _myhelp},
+		{"history", _myhistory}
 	};
 
-	for (i = 0; builtintbl[i].type; i++)
-		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+	for (a = 0; builtintbl[a].type; a++)
+		if (_strcmp(info->argv[0], builtintbl[a].type) == 0)
 		{
 			info->line_count++;
-			built_in_ret = builtintbl[i].func(info);
+			built_in_rets = builtintbl[a].func(info);
 			break;
 		}
-	return (built_in_ret);
+	return (built_in_rets);
 }
 
 /**
- * find_cmd - finding cmd  PATH
- * @info: parameter structure
+ * find_cmd - finding cmd
+ * @info: the parameter  structure
  *
- * Return: voiding
+ * Return: empty
  */
 void find_cmd(info_t *info)
 {
 	char *path = NULL;
-	int i, k;
+	int a, l;
 
 	info->path = info->argv[0];
 	if (info->linecount_flag == 1)
@@ -93,10 +92,10 @@ void find_cmd(info_t *info)
 		info->line_count++;
 		info->linecount_flag = 0;
 	}
-	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
-			k++;
-	if (!k)
+	for (a = 0, l = 0; info->arg[a]; a++)
+		if (!is_delim(info->arg[a], " \t\n"))
+			l++;
+	if (!l)
 		return;
 
 	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
@@ -119,10 +118,10 @@ void find_cmd(info_t *info)
 }
 
 /**
- * fork_cmd - forking executable
- * @info: parameter structure
+ * fork_cmd - forking cmd
+ * @info: the parameter structure
  *
- * Return: voiding
+ * Return: empty
  */
 void fork_cmd(info_t *info)
 {
@@ -155,3 +154,4 @@ void fork_cmd(info_t *info)
 		}
 	}
 }
+

@@ -54,8 +54,8 @@ void print_error(info_t *info, char *estr)
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int i, count = 0;
-	unsigned int _abs_, current;
+	int a, counts = 0;
+	unsigned int _abs_, currents;
 
 	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
@@ -63,24 +63,24 @@ int print_d(int input, int fd)
 	{
 		_abs_ = -input;
 		__putchar('-');
-		count++;
+		counts++;
 	}
 	else
 		_abs_ = input;
-	current = _abs_;
-	for (i = 1000000000; i > 1; i /= 10)
+	currents = _abs_;
+	for (a = 1000000000; a > 1; a /= 10)
 	{
-		if (_abs_ / i)
+		if (_abs_ / a)
 		{
-			__putchar('0' + current / i);
-			count++;
+			__putchar('0' + currents / a);
+			counts++;
 		}
-		current %= i;
+		currents %= a;
 	}
-	__putchar('0' + current);
-	count++;
+	__putchar('0' + currents);
+	counts++;
 
-	return (count);
+	return (counts);
 }
 
 /**
@@ -95,14 +95,14 @@ char *convert_number(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
-	char sign = 0;
+	char signs = 0;
 	char *ptr;
-	unsigned long n = num;
+	unsigned long a = num;
 
 	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
-		n = -num;
-		sign = '-';
+		a = -num;
+		signs = '-';
 
 	}
 	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
@@ -110,12 +110,12 @@ char *convert_number(long int num, int base, int flags)
 	*ptr = '\0';
 
 	do	{
-		*--ptr = array[n % base];
-		n /= base;
-	} while (n != 0);
+		*--ptr = array[a % base];
+		a /= base;
+	} while (a != 0);
 
-	if (sign)
-		*--ptr = sign;
+	if (signs)
+		*--ptr = signs;
 	return (ptr);
 }
 
@@ -127,12 +127,12 @@ char *convert_number(long int num, int base, int flags)
  */
 void remove_comments(char *buf)
 {
-	int i;
+	int a;
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+	for (a = 0; buf[a] != '\0'; a++)
+		if (buf[a] == '#' && (!a || buf[a - 1] == ' '))
 		{
-			buf[i] = '\0';
+			buf[a] = '\0';
 			break;
 		}
 }

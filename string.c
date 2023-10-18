@@ -41,7 +41,7 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * starts_with - checking start for haystack.
+ * starts_with - checking for haystack.
  * @haystack: string
  * @needle: found str.
  *
@@ -64,12 +64,12 @@ char *starts_with(const char *haystack, const char *needle)
  */
 char *_strcat(char *dest, char *src)
 {
-	char *ret = dest;
+	char *rets = dest;
 
 	while (*dest)
 		dest++;
 	while (*src)
 		*dest++ = *src++;
 	*dest = *src;
-	return (ret);
+	return (rets);
 }
